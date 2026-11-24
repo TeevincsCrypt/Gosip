@@ -19,13 +19,13 @@ Status reflects the repository as of the last commit. `[x]` = implemented and ve
 - [ ] 2.7 Video frame extraction for AI analysis (videos are stored and hashed only)
 
 ## 3. AI investigation
-- [x] 3.1 Provider abstraction + Claude implementation (structured outputs, refusal fallback) _(R2.2)_
+- [x] 3.1 Provider abstraction + Groq implementation (strict JSON-schema outputs, JSON-mode fallback, vision model for evidence) _(R2.2)_
 - [x] 3.2 Agent schemas and prompts A–F _(R2.1, R2.6)_
 - [x] 3.3 Runner: timeout, retries, validation _(R2.2)_
 - [x] 3.4 Orchestrator with partial-failure semantics and not-configured state _(R2.3, R2.4)_
 - [x] 3.5 Human-review policy and staff notifications _(R2.7)_
 - [x] 3.6 Re-run / retry endpoint _(R2.8)_
-- [ ] 3.7 Run the full pipeline against the live Claude API with a real key and record outputs for the demo
+- [ ] 3.7 Run the full pipeline against the live Groq API with a real key and record outputs for the demo
 
 ## 4. Correlation & graph
 - [x] 4.1 Pure correlation engine with explanations _(R4.1–R4.4)_

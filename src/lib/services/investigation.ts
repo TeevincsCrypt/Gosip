@@ -2,7 +2,8 @@ import "server-only";
 import { config } from "@/lib/config";
 import { withSystem } from "@/lib/db/context";
 import { getSql } from "@/lib/db/client";
-import { createDefaultProvider } from "@/lib/ai/anthropic";
+import sharp from "sharp";
+import { createDefaultProvider } from "@/lib/ai/groq";
 import type { AIProvider, ContentPart } from "@/lib/ai/provider";
 import { runAgent, type AgentRunResult } from "@/lib/agents/runner";
 import { PROMPTS } from "@/lib/agents/prompts";
@@ -123,7 +124,7 @@ export async function runInvestigation(
       const [inv] = await tx<{ id: string }[]>`
         insert into public.investigations (report_id, status, trigger, attempt, error, triggered_by, started_at, completed_at)
         values (${reportId}, 'not_configured', ${opts.trigger ?? "submission"}, ${attempt},
-                'AI provider is not configured (ANTHROPIC_API_KEY missing). No AI analysis was performed.',
+                'AI provider is not configured (GROQ_API_KEY missing). No AI analysis was performed.',
                 ${opts.triggeredBy ?? null}, now(), now())
         returning id`;
       await tx`update public.reports set investigation_status = 'not_configured', needs_human_review = true where id = ${reportId}`;
@@ -254,9 +255,11 @@ export async function runInvestigation(
     const loaded: string[] = [];
     for (const img of images) {
       try {
-        const data = await storageFor(img.storage_backend).get(img.storage_path);
+        const original = await storageFor(img.storage_backend).get(img.storage_path);
+        // Downscale for the vision model (request-size limits); the stored original is untouched.
+        const data = await sharp(original, { failOn: "none" }).rotate().resize(1280, 1280, { fit: "inside", withoutEnlargement: true }).jpeg({ quality: 80 }).toBuffer();
         parts.push({ type: "text", text: `Image evidence_id=${img.id}` });
-        parts.push({ type: "image", mediaType: img.mime_type as "image/jpeg", base64: data.toString("base64") });
+        parts.push({ type: "image", mediaType: "image/jpeg", base64: data.toString("base64") });
         loaded.push(img.id);
       } catch {
         parts.push({ type: "text", text: `Image evidence_id=${img.id} could not be loaded from storage.` });

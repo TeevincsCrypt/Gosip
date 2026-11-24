@@ -3,7 +3,7 @@
  *
  *   npm run db:seed                 # insert synthetic reports + run correlation
  *   npm run db:seed -- --reset      # remove previously seeded synthetic data first
- *   npm run db:seed -- --investigate  # also run real AI investigations (needs ANTHROPIC_API_KEY)
+ *   npm run db:seed -- --investigate  # also run real AI investigations (needs GROQ_API_KEY)
  *
  * Seeded reports go through the same createReport + correlation code paths as
  * real submissions. No investigation results are fabricated: AI findings exist
@@ -65,7 +65,7 @@ async function main() {
 
     if (args.has("--investigate")) {
       if (!isAiConfigured()) {
-        console.log("--investigate requested but ANTHROPIC_API_KEY is not set; skipping AI investigations.");
+        console.log("--investigate requested but GROQ_API_KEY is not set; skipping AI investigations.");
       } else {
         for (const c of created) {
           process.stdout.write(`  investigating ${c.reference} ... `);

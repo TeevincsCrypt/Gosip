@@ -14,7 +14,7 @@ Next.js route handlers (src/app/api) ── handler(): session → Actor, role c
    ├── services/review         withActor(asReviewer) → human_reviews + audit_logs + events
    └── services/insights       dashboard / analytics / map / graph queries (RLS views)
    │
-PostgreSQL + PostGIS (Supabase)          Supabase Storage (private bucket)     Claude API
+PostgreSQL + PostGIS (Supabase)          Supabase Storage (private bucket)     Groq API
 ```
 
 ## Data model (db/migrations/0001_core_schema.sql)

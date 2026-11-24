@@ -6,6 +6,6 @@ process.env.SESSION_SECRET = "test-session-secret-0123456789-abcdefghij";
 process.env.FINGERPRINT_SECRET = "test-fingerprint-secret";
 process.env.LOCAL_UPLOAD_DIR = path.join(os.tmpdir(), "gosip-test-uploads");
 // Tests must never call a real AI provider.
-delete process.env.ANTHROPIC_API_KEY;
+delete process.env.GROQ_API_KEY;
 delete process.env.NEXT_PUBLIC_SUPABASE_URL;
 delete process.env.SUPABASE_SERVICE_ROLE_KEY;

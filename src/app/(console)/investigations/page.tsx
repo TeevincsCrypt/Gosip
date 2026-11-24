@@ -35,7 +35,7 @@ export default function InvestigationsPage() {
       <div className="space-y-4 p-4 lg:p-6">
         {q.data && !q.data.aiConfigured && (
           <p className="rounded-md border border-warn/40 bg-warn/5 px-3 py-2 text-xs text-warn">
-            The AI provider is not configured on this deployment (ANTHROPIC_API_KEY). New reports are recorded as “AI not configured” and routed to human review; no AI results are fabricated.
+            The AI provider is not configured on this deployment (GROQ_API_KEY). New reports are recorded as “AI not configured” and routed to human review; no AI results are fabricated.
           </p>
         )}
         <Panel bodyClassName="p-0">

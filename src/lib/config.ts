@@ -25,12 +25,14 @@ export const config = {
   demoMode: optional("DEMO_MODE") === "true",
 
   ai: {
-    provider: (optional("AI_PROVIDER") ?? "anthropic") as "anthropic",
-    apiKey: optional("ANTHROPIC_API_KEY"),
-    model: optional("AI_MODEL") ?? "claude-opus-5-5",
+    provider: "groq" as const,
+    apiKey: optional("GROQ_API_KEY"),
+    /** Text agents (classification, geospatial, corroboration, threat, lead). */
+    model: optional("AI_MODEL") ?? "openai/gpt-oss-120b",
+    /** Evidence agent (receives images): must be a Groq vision-capable model. */
+    visionModel: optional("AI_VISION_MODEL") ?? "meta-llama/llama-4-scout-17b-16e-instruct",
     agentTimeoutMs: numberOr("AI_AGENT_TIMEOUT_MS", 90_000),
-    maxAttempts: numberOr("AI_AGENT_MAX_ATTEMPTS", 2),
-    enableFallbacks: (optional("AI_ENABLE_FALLBACKS") ?? "true") === "true",
+    maxAttempts: numberOr("AI_AGENT_MAX_ATTEMPTS", 3),
   },
 
   storage: {

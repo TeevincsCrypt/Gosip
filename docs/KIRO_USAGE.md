@@ -7,6 +7,7 @@ The hackathon rules require Kiro to be used in a meaningful, demonstrable way an
 | Date (UTC) | Tool | What was produced | Notes |
 |---|---|---|---|
 | 2026-11-24 | **Claude Code** (Anthropic), cloud session | Initial application code, migrations, tests, README, CI workflow, **and the first drafts of** `.kiro/specs/gos-ip-platform/{requirements,design,tasks}.md`, `.kiro/steering/*.md`, `.kiro/hooks/*.kiro.hook`, `.kiro/agents/gosip-dev.json` | These `.kiro` files were **written by Claude Code, not generated or executed by Kiro**. The hooks and agent config have **not been run** yet. The Kiro CLI agent JSON schema was written from memory and must be validated with Kiro before use. |
+| 2026-11-24 | **Claude Code** | Switched the AI provider from Claude to Groq; updated `.kiro/steering/tech.md`, `.kiro/specs/gos-ip-platform/{design,tasks}.md` and the secret-check hook to match | Edits by Claude Code, not Kiro. |
 | _next_ | **Kiro** | _record real Kiro sessions here_ | e.g. "Opened spec in Kiro, refined R4 acceptance criteria, Kiro generated tasks 7.4–7.6" |
 
 ## How to use Kiro from here (and what to record)

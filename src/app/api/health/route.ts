@@ -15,7 +15,7 @@ export async function GET() {
   }
   return json({
     database,
-    ai: isAiConfigured() ? { status: "configured", provider: config.ai.provider, model: config.ai.model } : { status: "not_configured" },
+    ai: isAiConfigured() ? { status: "configured", provider: config.ai.provider, model: config.ai.model, visionModel: config.ai.visionModel } : { status: "not_configured" },
     storage: config.storage.supabaseUrl && config.storage.serviceRoleKey ? "supabase" : process.env.VERCEL ? "not_configured" : "local",
     realtime: process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "supabase" : "polling",
     correlation: config.correlation,

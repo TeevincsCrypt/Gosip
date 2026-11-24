@@ -41,7 +41,7 @@ Built for **Kiroween 2026 — Frankenstein category**: crowdsourced reporting, m
 
 - **Frontend**: Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · shadcn-style primitives (`src/components/ui`) · Lucide · TanStack Query · MapLibre GL v6 · d3-force · Recharts
 - **Backend**: Next.js route handlers · PostgreSQL + PostGIS (Supabase) · Supabase Storage (private bucket) · Supabase Realtime (optional)
-- **AI**: Claude via the official Anthropic SDK with structured outputs (`client.beta.messages.parse` + Zod schemas). Model configurable with `AI_MODEL` (default `claude-opus-5-5`). Keys never reach the browser.
+- **AI**: Groq via the official `groq-sdk`, behind a provider interface (`src/lib/ai/provider.ts`). Agents request strict JSON-schema structured outputs generated from their Zod schemas (JSON-mode fallback for models without `json_schema` support), and every response is re-validated with Zod. Text agents use `AI_MODEL` (default `openai/gpt-oss-120b`); the evidence agent uses the vision model `AI_VISION_MODEL` (default `meta-llama/llama-4-scout-17b-16e-instruct`). Images are downscaled to 1280 px before being sent. Keys never reach the browser.
 - **Evidence**: `sharp` (dHash), `exifr`, Node `crypto`
 - **PDF**: `pdf-lib`
 
@@ -71,7 +71,7 @@ Requirements: Node 22+, PostgreSQL 15+ with PostGIS.
 
 ```bash
 npm install                       # also copies the MapLibre worker into public/vendor
-cp .env.example .env.local        # set DATABASE_URL and SESSION_SECRET (and ANTHROPIC_API_KEY for AI)
+cp .env.example .env.local        # set DATABASE_URL and SESSION_SECRET (and GROQ_API_KEY for AI)
 npm run db:migrate
 npm run db:seed                   # synthetic demo scenario (add -- --investigate to run real AI agents)
 GOSIP_USER_PASSWORD='choose-a-strong-one' npm run db:create-user -- --email you@example.org --name "You" --role admin
@@ -95,7 +95,7 @@ The integration suite recreates the test database schema from the migrations. Te
 2. Run migrations against the **direct** connection string: `DATABASE_URL=... npm run db:migrate`.
 3. **Storage**: create a **private** bucket named `evidence` (or set `SUPABASE_EVIDENCE_BUCKET`).
 4. **Realtime** (optional): migration `0002` adds `incident_events` to the `supabase_realtime` publication and lets the `anon` role see only the id/type of public events, so clients know when to refresh. All data still flows through the authorised API.
-5. **Vercel**: import the repository and set the variables from `.env.example`. Use the Supabase **transaction pooler** URI for `DATABASE_URL`. Set `SESSION_SECRET`, `ANTHROPIC_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`. Set `DEMO_MODE=true` on a judging deployment.
+5. **Vercel**: import the repository and set the variables from `.env.example`. Use the Supabase **transaction pooler** URI for `DATABASE_URL`. Set `SESSION_SECRET`, `GROQ_API_KEY`, `AI_MODEL`, `AI_VISION_MODEL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`. Set `DEMO_MODE=true` on a judging deployment.
 6. Seed and create reviewer accounts from your machine with the production `DATABASE_URL`.
 
 Investigations run after the response using Next.js `after()`; the report route sets `maxDuration = 300`.
