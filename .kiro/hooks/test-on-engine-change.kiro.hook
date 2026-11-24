@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Run correlation & agent unit tests",
+  "description": "When the correlation engine, agent runner or schemas change, run the unit test suite and report failures.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/lib/correlation/**/*.ts", "src/lib/agents/**/*.ts", "src/lib/domain/schemas.ts"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A core intelligence module changed. Run `npm run test:unit`. If anything fails, explain the failing assertion and propose a fix that preserves explainability (no AI-only links, thresholds respected)."
+  }
+}

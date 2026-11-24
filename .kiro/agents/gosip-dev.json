@@ -1,0 +1,16 @@
+{
+  "name": "gosip-dev",
+  "description": "GOS-IP development agent: loads the product, tech, structure and trust-and-safety steering plus the platform spec.",
+  "prompt": "You are working on GOS-IP. Follow the steering documents strictly, especially the trust and safety rules. Prefer small, tested changes. Never fabricate AI output or Kiro activity.",
+  "resources": [
+    "file://AGENTS.md",
+    "file://README.md",
+    "file://.kiro/steering/**/*.md",
+    "file://.kiro/specs/gos-ip-platform/*.md"
+  ],
+  "tools": ["*"],
+  "allowedTools": ["fs_read"],
+  "hooks": {
+    "agentSpawn": [{ "command": "git status --short" }]
+  }
+}

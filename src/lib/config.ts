@@ -21,6 +21,8 @@ export const config = {
   sessionSecret: optional("SESSION_SECRET"),
   fingerprintSecret: optional("FINGERPRINT_SECRET") ?? optional("SESSION_SECRET"),
   appUrl: optional("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000",
+  /** Allows submissions explicitly marked as synthetic demo data (judging/demo deployments). */
+  demoMode: optional("DEMO_MODE") === "true",
 
   ai: {
     provider: (optional("AI_PROVIDER") ?? "anthropic") as "anthropic",

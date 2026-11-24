@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Migration RLS safety review",
+  "description": "When a SQL migration is added or edited, review it against the trust & safety steering rules and run the integration tests.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["db/migrations/*.sql"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A migration changed. Check that every new table has RLS enabled, that gosip_anon/gosip_user grants are minimal, that public views do not expose contact details, reporter ids, fingerprints, storage paths or EXIF GPS, and that human-only transitions are still guarded. Then run `npm run test:integration` and report results."
+  }
+}
